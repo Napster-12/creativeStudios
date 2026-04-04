@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Studios | Modern Photography Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#faf9f6;
+    --panel:#ffffff;
+    --soft:#f0f0f0;
+    --line:rgba(0,0,0,.08);
+    --text:#1a1a1a;
+    --muted:#5a5a5a;
+    --accent:#b8860b;
+    --radius:24px;
+  }
+
+  *{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+  }
+
+  html{
+    scroll-behavior:smooth;
+  }
+
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+
+  .logo-wrapper{
+    padding:30px 6%;
+    text-align:center;
+  }
+
+  .logo{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    letter-spacing:.15em;
+    color:var(--accent);
+  }
+
+  .hero{
+    min-height:70vh;
+    padding:60px 6% 80px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:3rem;
+    align-items:center;
+    background:radial-gradient(circle at top right, rgba(184,134,11,.1), transparent 40%);
+  }
+
+  .hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.5rem,6vw,5rem);
+    line-height:1.05;
+    margin-bottom:1rem;
+  }
+
+  .hero p{
+    color:var(--muted);
+    max-width:520px;
+    margin-bottom:2rem;
+  }
+
+  .btn{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:999px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+  }
+
+  .hero-visual{
+    border-radius:32px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+  }
+
+  .hero-visual img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+
+  section{
+    padding:90px 6%;
+  }
+
+  .section-title{
+    font-family:'Playfair Display',serif;
+    font-size:2.5rem;
+    margin-bottom:.5rem;
+  }
+
+  .section-sub{
+    color:var(--muted);
+    margin-bottom:3rem;
+  }
+
+  .category-section{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+  }
+
+  .category-section:first-of-type{
+    border-top:none;
+    padding-top:100px;
+  }
+
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1rem;
+    margin-bottom:3rem;
+  }
+
+  .gallery-item{
+    border-radius:16px;
+    overflow:hidden;
+    transition:.35s ease;
+    box-shadow:0 6px 15px rgba(0,0,0,.1);
+  }
+
+  .gallery-item:hover{
+    transform:translateY(-4px);
+  }
+
+  .gallery-item img{
+    display:block;
+    width:100%;
+    height:280px;
+    object-fit:cover;
+  }
+
+  .services-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.5rem;
+  }
+
+  .service{
+    background:var(--soft);
+    padding:2rem;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+  }
+
+  .service h3{
+    margin-bottom:.8rem;
+    color:var(--accent);
+  }
+
+  .service p{
+    color:var(--muted);
+    font-size:.95rem;
+  }
+
+  .cta{
+    text-align:center;
+    background:var(--panel);
+    border-radius:32px;
+    padding:5rem 2rem;
+    border:1px solid var(--line);
+    margin:0 6%;
+  }
+
+  footer{
+    padding:2rem 6%;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+  }
+
+  @media(max-width:900px){
+    .hero, .gallery-grid, .services-grid{
+      grid-template-columns:1fr;
+    }
+
+    .gallery-item img{
+      height:220px;
+    }
+
+    footer{
+      flex-direction:column;
+      gap:1rem;
+      text-align:center;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="logo-wrapper">
+    <div class="logo">CREATIVE STUDIOS</div>
+  </div>
+
+  <section class="hero">
+    <div>
+      <h1>Visual stories that feel timeless.</h1>
+      <p>Premium photography services capturing your most precious moments with elegance and authenticity.</p>
+      <a href="/book" class="btn">View Our Packages</a>
+    </div>
+    <div class="hero-visual"><img src="/static/images/photo1.jpg" alt="Hero Photography" /></div>
+  </section>
+
+  <section id="graduations" class="category-section">
+    <h2 class="section-title">Graduations</h2>
+    <p class="section-sub">Celebrate your academic achievements with timeless portraits.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="/static/images/Grad1.jpg" alt="Graduation 1" /></div>
+      <div class="gallery-item"><img src="/static/images/Grad2.jpg" alt="Graduation 2" /></div>
+      <div class="gallery-item"><img src="/static/images/Grad3.jpg" alt="Graduation 3" /></div>
+      <div class="gallery-item"><img src="/static/images/Grad4.jpg" alt="Graduation 4" /></div>
+    </div>
+    <a class="btn" href="mailto:hello@creativestudios.com?subject=Graduation Booking">Book Now</a>
+    <div class="services-grid">
+      <div class="service"><h3>Graduation Portraits</h3><p>Professional caps and gown portraits to commemorate your achievement.</p></div>
+      <div class="service"><h3>Ceremony Coverage</h3><p>Capturing the special moment you receive your certificate.</p></div>
+      <div class="service"><h3>Family Celebrations</h3><p>Photography for graduation parties and family gatherings.</p></div>
+    </div>
+  </section>
+
+  <section id="weddings" class="category-section">
+    <h2 class="section-title">Weddings</h2>
+    <p class="section-sub">Capturing your love story on the most special day.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="/static/images/Wed1.jpg" alt="Wedding 1" /></div>
+      <div class="gallery-item"><img src="/static/images/Wed2.webp" alt="Wedding 2" /></div>
+      <div class="gallery-item"><img src="/static/images/Wed3.jpg" alt="Wedding 3" /></div>
+      <div class="gallery-item"><img src="/static/images/Wed4.jpg" alt="Wedding 4" /></div>
+    </div>
+    <div class="services-grid">
+      <div class="service"><h3>Full Day Coverage</h3><p>Complete wedding day photography from preparation to reception.</p></div>
+      <div class="service"><h3>Ceremony</h3><p>Professional coverage of your wedding ceremony and vows.</p></div>
+      <div class="service"><h3>Couple Session</h3><p>Romantic pre-wedding or post-wedding photoshoot.</p></div>
+    </div>
+  </section>
+
+  <section id="private" class="category-section">
+    <h2 class="section-title">Private</h2>
+    <p class="section-sub">Personalized photography for intimate and special occasions.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="/static/images/Pes1.jpg" alt="Private 1" /></div>
+      <div class="gallery-item"><img src="/static/images/Pes2.jpg" alt="Private 2" /></div>
+      <div class="gallery-item"><img src="/static/images/Pes3.jpg" alt="Private 3" /></div>
+      <div class="gallery-item"><img src="/static/images/Pes4.jpg" alt="Private 4" /></div>
+    </div>
+    <div class="services-grid">
+      <div class="service"><h3>Portraits</h3><p>Premium personal and editorial portraits.</p></div>
+      <div class="service"><h3>Events</h3><p>Baby showers, birthdays, and intimate celebrations.</p></div>
+      <div class="service"><h3>Creative</h3><p>Album covers, posters, and conceptual shoots.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="cta">
+      <h2 class="section-title">Let's create something unforgettable</h2>
+      <p class="section-sub">Bookings open for graduations, weddings, and private sessions.</p>
+      <a class="btn" href="/book">Book a Session</a>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Creative Studios</div>
+    <div>Instagram • Behance • Pinterest</div>
+  </footer>
+</body>
+</html>

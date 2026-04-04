@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Studios | Book Now</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --bg:#faf9f6;
+    --panel:#ffffff;
+    --soft:#f0f0f0;
+    --line:rgba(0,0,0,.08);
+    --text:#1a1a1a;
+    --muted:#5a5a5a;
+    --accent:#b8860b;
+    --radius:24px;
+  }
+
+  *{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+  }
+
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+
+  .logo-wrapper{
+    padding:30px 6%;
+    text-align:center;
+  }
+
+  .logo{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    letter-spacing:.15em;
+    color:var(--accent);
+  }
+
+  .header{
+    padding:40px 6% 20px;
+    text-align:center;
+    background:radial-gradient(circle at top right, rgba(184,134,11,.1), transparent 40%);
+  }
+
+  .header h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2rem,5vw,3rem);
+    margin-bottom:10px;
+  }
+
+  .header p{
+    color:var(--muted);
+    max-width:500px;
+    margin:0 auto;
+  }
+
+  .form-section{
+    padding:40px 6% 80px;
+    max-width:700px;
+    margin:0 auto;
+  }
+
+  .form-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:2.5rem;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+  }
+
+  .form-group{
+    margin-bottom:1.5rem;
+  }
+
+  .form-group label{
+    display:block;
+    margin-bottom:.5rem;
+    font-weight:500;
+    color:var(--text);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    font-family:inherit;
+    font-size:1rem;
+    background:var(--soft);
+    color:var(--text);
+    transition:.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:#fff;
+  }
+
+  .form-group textarea{
+    min-height:120px;
+    resize:vertical;
+  }
+
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+  }
+
+  .btn{
+    display:inline-block;
+    width:100%;
+    padding:16px 28px;
+    border-radius:999px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    font-size:1.1rem;
+    border:none;
+    cursor:pointer;
+    transition:.35s ease;
+  }
+
+  .btn:hover{
+    background:#9a7209;
+    transform:translateY(-2px);
+  }
+
+  .back-link{
+    display:block;
+    text-align:center;
+    padding:2rem;
+    color:var(--muted);
+    text-decoration:none;
+  }
+
+  .back-link:hover{
+    color:var(--accent);
+  }
+
+  .flash-message{
+    padding:1rem 1.5rem;
+    border-radius:12px;
+    margin-bottom:1.5rem;
+    text-align:center;
+  }
+
+  .flash-message.success{
+    background:rgba(184,134,11,.15);
+    color:var(--accent);
+    border:1px solid var(--accent);
+  }
+
+  .flash-message.error{
+    background:rgba(220,53,69,.15);
+    color:#dc3545;
+    border:1px solid #dc3545;
+  }
+
+  footer{
+    padding:2rem 6%;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+  }
+
+  @media(max-width:600px){
+    .form-row{
+      grid-template-columns:1fr;
+    }
+
+    footer{
+      flex-direction:column;
+      gap:1rem;
+      text-align:center;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="logo-wrapper">
+    <div class="logo">CREATIVE STUDIOS</div>
+  </div>
+
+  <section class="header">
+    <h1>Book a Session</h1>
+    <p>Tell us about your event and we'll get back to you within 24 hours.</p>
+  </section>
+
+  <section class="form-section">
+    <div class="form-card">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="/book">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required placeholder="+27 12 345 6789">
+          </div>
+          <div class="form-group">
+            <label for="service">Service Type</label>
+            <select id="service" name="service" required>
+              <option value="">Select a service</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Graduation">Graduation</option>
+              <option value="Lobola">Lobola / Negotiation</option>
+              <option value="Private Event">Private Event</option>
+              <option value="Portraits">Portraits</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Event Date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="package">Preferred Package</label>
+          <select id="package" name="package">
+            <option value="">Select a package (optional)</option>
+            <option value="Basic">Basic</option>
+            <option value="Standard">Standard</option>
+            <option value="Premium">Premium</option>
+            <option value="Custom">Custom / Not Sure</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Additional Details</label>
+          <textarea id="message" name="message" placeholder="Tell us more about your event, venue, number of guests, special requests..."></textarea>
+        </div>
+
+        <button type="submit" class="btn">Submit Booking Request</button>
+      </form>
+    </div>
+  </section>
+
+  <a href="/" class="back-link">← Back to Home</a>
+
+  <footer>
+    <div>© 2026 Creative Studios</div>
+    <div>Instagram • Behance • Pinterest</div>
+  </footer>
+</body>
+</html>
