@@ -172,14 +172,18 @@
     justify-content:center;
   }
 
-  .slideshow-slide img{
-    display:block;
-    max-width:100%;
-    max-height:400px;
-    width:auto;
-    height:auto;
-    object-fit:contain;
-  }
+.slideshow-slide img, .slideshow-slide video{
+     display:block;
+     max-width:100%;
+     max-height:400px;
+     width:auto;
+     height:auto;
+     object-fit:contain;
+   }
+
+   .slideshow-slide video{
+     max-height:400px;
+   }
 
   .slideshow-btn{
     position:absolute;
@@ -491,6 +495,25 @@
     </div>
   </section>
 
+  <section id="videos" class="category-section">
+    <h2 class="section-title">Videos</h2>
+    <p class="section-sub">Random moments captured in motion.</p>
+    <div class="slideshow" id="videos-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><video src="/static/video/VID1.mp4" controls preload="auto"></video></div>
+        <div class="slideshow-slide"><video src="/static/video/VID2.mp4" controls preload="auto"></video></div>
+        <div class="slideshow-slide"><video src="/static/video/VID3.mp4" controls preload="auto"></video></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="videosChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="videosChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="videosGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="videosGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="videosGoToSlide(2)"></button>
+      </div>
+    </div>
+  </section>
+
   <section id="contact">
     <div class="cta">
       <h2 class="section-title">Let's create something unforgettable</h2>
@@ -515,6 +538,9 @@
       
       var currentSlide = 0;
       var totalSlides = slides.length;
+      var autoSlideInterval;
+      var hasVideo = false;
+      var videoPlaying = false;
 
       function updateSlideshow(){
         track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
@@ -525,6 +551,10 @@
 
       function changeSlide(dir){
         currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+        if(hasVideo && autoSlideInterval){
+          clearInterval(autoSlideInterval);
+          autoSlideInterval = null;
+        }
         updateSlideshow();
       }
 
@@ -533,11 +563,43 @@
         updateSlideshow();
       }
 
+      function startAutoSlide(){
+        if(hasVideo) return;
+        if(autoSlideInterval) clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(function(){ changeSlide(1); }, 5000);
+      }
+
+      slides.forEach(function(slide){
+        var video = slide.querySelector('video');
+        if(video){
+          hasVideo = true;
+          video.addEventListener('play', function(){
+            videoPlaying = true;
+            if(autoSlideInterval){
+              clearInterval(autoSlideInterval);
+              autoSlideInterval = null;
+            }
+          });
+          video.addEventListener('ended', function(){
+            videoPlaying = false;
+            changeSlide(1);
+            if(autoSlideInterval) clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(function(){ changeSlide(1); }, 5000);
+          });
+          video.addEventListener('pause', function(){
+            videoPlaying = false;
+            if(!autoSlideInterval){
+              autoSlideInterval = setInterval(function(){ changeSlide(1); }, 5000);
+            }
+          });
+        }
+      });
+
       window[idPrefix + 'ChangeSlide'] = changeSlide;
       window[idPrefix + 'GoToSlide'] = goToSlide;
       
       updateSlideshow();
-      setInterval(function(){ changeSlide(1); }, 5000);
+      startAutoSlide();
     }
 
     initSlideshow('graduations');
@@ -545,6 +607,7 @@
     initSlideshow('private');
     initSlideshow('babyshowers');
     initSlideshow('matricdance');
+    initSlideshow('videos');
   </script>
 </body>
 </html>
