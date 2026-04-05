@@ -143,6 +143,91 @@
     object-fit:cover;
   }
 
+  .slideshow{
+    position:relative;
+    max-width:800px;
+    margin:0 auto 3rem;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 6px 15px rgba(0,0,0,.1);
+    background:#000;
+    width:100%;
+    min-height:400px;
+  }
+
+  .slideshow-track{
+    display:flex;
+    transition:transform 0.4s ease;
+    align-items:center;
+    width:100%;
+    height:400px;
+  }
+
+  .slideshow-slide{
+    min-width:100%;
+    width:100%;
+    height:400px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .slideshow-slide img{
+    display:block;
+    max-width:100%;
+    max-height:400px;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+  }
+
+  .slideshow-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,.85);
+    border:none;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1.2rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.25s ease;
+  }
+
+  .slideshow-btn:hover{
+    background:#fff;
+  }
+
+  .slideshow-prev{left:12px;}
+  .slideshow-next{right:12px;}
+
+  .slideshow-dots{
+    position:absolute;
+    bottom:16px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:8px;
+  }
+
+  .slideshow-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:rgba(255,255,255,.6);
+    border:none;
+    cursor:pointer;
+    transition:.25s ease;
+  }
+
+  .slideshow-dot.active{
+    background:#fff;
+  }
+
   .services-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -266,21 +351,31 @@
     <div>
       <h1>Visual stories that feel timeless.</h1>
       <p>Premium photography services capturing your most precious moments with elegance and authenticity.</p>
-      <a href="/pack" class="btn">View Our Packages</a>
+      <a href="/book" class="btn">View Our Packages</a>
     </div>
-    <div class="hero-visual"><img src="/static/images/photo1.jpg" alt="Hero Photography" /></div>
+    <div class="hero-visual"><img src="/static/images/Wed7.jpg" alt="Hero Photography" /></div>
   </section>
 
   <section id="graduations" class="category-section">
     <h2 class="section-title">Graduations</h2>
     <p class="section-sub">Celebrate your academic achievements with timeless portraits.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="/static/images/Grad1.jpg" alt="Graduation 1" /></div>
-      <div class="gallery-item"><img src="/static/images/Grad2.jpg" alt="Graduation 2" /></div>
-      <div class="gallery-item"><img src="/static/images/Grad3.jpg" alt="Graduation 3" /></div>
-      <div class="gallery-item"><img src="/static/images/Grad4.jpg" alt="Graduation 4" /></div>
+    <div class="slideshow" id="graduations-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><img src="/static/images/Grad1.jpg" alt="Graduation 1" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Grad2.jpg" alt="Graduation 2" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Grad3.jpg" alt="Graduation 3" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Grad4.jpg" alt="Graduation 4" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Grad5.jpg" alt="Graduation 5" /></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="graduationsChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="graduationsChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="graduationsGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="graduationsGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="graduationsGoToSlide(2)"></button>
+        <button class="slideshow-dot" onclick="graduationsGoToSlide(3)"></button>
+      </div>
     </div>
-    <a class="btn" href="/book">Book Now</a>
     <div class="services-grid">
       <div class="service"><h3>Graduation Portraits</h3><p>Professional caps and gown portraits to commemorate your achievement.</p></div>
       <div class="service"><h3>Ceremony Coverage</h3><p>Capturing the special moment you receive your certificate.</p></div>
@@ -291,11 +386,24 @@
   <section id="weddings" class="category-section">
     <h2 class="section-title">Weddings</h2>
     <p class="section-sub">Capturing your love story on the most special day.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="/static/images/Wed1.jpg" alt="Wedding 1" /></div>
-      <div class="gallery-item"><img src="/static/images/Wed2.webp" alt="Wedding 2" /></div>
-      <div class="gallery-item"><img src="/static/images/Wed3.jpg" alt="Wedding 3" /></div>
-      <div class="gallery-item"><img src="/static/images/Wed4.jpg" alt="Wedding 4" /></div>
+    <div class="slideshow" id="weddings-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><img src="/static/images/Wed1.jpg" alt="Wedding 1" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed2.webp" alt="Wedding 2" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed3.jpg" alt="Wedding 3" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed4.jpg" alt="Wedding 4" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed5.jpg" alt="Wedding 5" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed6.webp" alt="Wedding 6" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Wed7.jpg" alt="Wedding 7" /></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="weddingsChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="weddingsChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="weddingsGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="weddingsGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="weddingsGoToSlide(2)"></button>
+        <button class="slideshow-dot" onclick="weddingsGoToSlide(3)"></button>
+      </div>
     </div>
     <div class="services-grid">
       <div class="service"><h3>Full Day Coverage</h3><p>Complete wedding day photography from preparation to reception.</p></div>
@@ -307,11 +415,26 @@
   <section id="private" class="category-section">
     <h2 class="section-title">Private</h2>
     <p class="section-sub">Personalized photography for intimate and special occasions.</p>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="/static/images/Pes1.jpg" alt="Private 1" /></div>
-      <div class="gallery-item"><img src="/static/images/Pes2.jpg" alt="Private 2" /></div>
-      <div class="gallery-item"><img src="/static/images/Pes3.jpg" alt="Private 3" /></div>
-      <div class="gallery-item"><img src="/static/images/Pes4.jpg" alt="Private 4" /></div>
+    <div class="slideshow" id="private-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><img src="/static/images/Pes1.jpg" alt="Private 1" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes2.jpg" alt="Private 2" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes3.jpg" alt="Private 3" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes4.jpg" alt="Private 4" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes5.jpg" alt="Private 5" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes6.jpg" alt="Private 6" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes7.jpg" alt="Private 7" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes6.jpg" alt="Private 8" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Pes7.jpg" alt="Private 9" /></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="privateChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="privateChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="privateGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="privateGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="privateGoToSlide(2)"></button>
+        <button class="slideshow-dot" onclick="privateGoToSlide(3)"></button>
+      </div>
     </div>
     <div class="services-grid">
       <div class="service"><h3>Portraits</h3><p>Premium personal and editorial portraits.</p></div>
@@ -320,10 +443,58 @@
     </div>
   </section>
 
+  <section id="babyshowers" class="category-section">
+    <h2 class="section-title">Baby Showers</h2>
+    <p class="section-sub">Celebrate the upcoming arrival with joyful and heartwarming photography.</p>
+    <div class="slideshow" id="babyshowers-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><img src="/static/images/Baby1.jpg" alt="Baby Shower 1" /></div>
+        <div class="slideshow-slide"><img src="/static/images/baby2.jpg" alt="Baby Shower 2" /></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="babyshowersChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="babyshowersChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="babyshowersGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="babyshowersGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="babyshowersGoToSlide(2)"></button>
+        <button class="slideshow-dot" onclick="babyshowersGoToSlide(3)"></button>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service"><h3>Shower Coverage</h3><p>Complete photography coverage for your baby shower celebration.</p></div>
+      <div class="service"><h3>Guest Moments</h3><p>Capturing joyful moments with family and friends.</p></div>
+      <div class="service"><h3>Gift Announcements</h3><p>Special moments of gift openings and wishes.</p></div>
+    </div>
+  </section>
+
+  <section id="matricdance" class="category-section">
+    <h2 class="section-title">Matric Dance</h2>
+    <p class="section-sub">Capture the elegance and glamour of your special formal evening.</p>
+    <div class="slideshow" id="matricdance-slideshow">
+      <div class="slideshow-track">
+        <div class="slideshow-slide"><img src="/static/images/Matric1.jpg" alt="Matric Dance 1" /></div>
+        <div class="slideshow-slide"><img src="/static/images/Matric2.jpg" alt="Matric Dance 2" /></div>
+      </div>
+      <button class="slideshow-btn slideshow-prev" onclick="matricdanceChangeSlide(-1)">&#8249;</button>
+      <button class="slideshow-btn slideshow-next" onclick="matricdanceChangeSlide(1)">&#8250;</button>
+      <div class="slideshow-dots">
+        <button class="slideshow-dot active" onclick="matricdanceGoToSlide(0)"></button>
+        <button class="slideshow-dot" onclick="matricdanceGoToSlide(1)"></button>
+        <button class="slideshow-dot" onclick="matricdanceGoToSlide(2)"></button>
+        <button class="slideshow-dot" onclick="matricdanceGoToSlide(3)"></button>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service"><h3>Formal Portrait</h3><p>Glamorous individual portraits in your formal attire.</p></div>
+      <div class="service"><h3>Couple Session</h3><p>Romantic photos with your date or group.</p></div>
+      <div class="service"><h3>Event Coverage</h3><p>Full photography coverage of your matric dance event.</p></div>
+    </div>
+  </section>
+
   <section id="contact">
     <div class="cta">
       <h2 class="section-title">Let's create something unforgettable</h2>
-      <p class="section-sub">Bookings open for graduations, weddings, and private sessions.</p>
+      <p class="section-sub">Bookings open for graduations, weddings, baby showers, matric dance, and private sessions.</p>
       <a class="btn" href="/book">Book a Session</a>
     </div>
   </section>
@@ -332,5 +503,48 @@
     <div>© 2026 Creative Studios</div>
     <div>Instagram • Behance • Pinterest</div>
   </footer>
+  <script>
+    function initSlideshow(idPrefix){
+      var container = document.getElementById(idPrefix + '-slideshow');
+      if(!container) return;
+      
+      var slides = container.querySelectorAll('.slideshow-slide');
+      var dots = container.querySelectorAll('.slideshow-dot');
+      var track = container.querySelector('.slideshow-track');
+      if(!slides.length || !track) return;
+      
+      var currentSlide = 0;
+      var totalSlides = slides.length;
+
+      function updateSlideshow(){
+        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        dots.forEach(function(dot, i){
+          dot.classList.toggle('active', i === currentSlide);
+        });
+      }
+
+      function changeSlide(dir){
+        currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+        updateSlideshow();
+      }
+
+      function goToSlide(index){
+        currentSlide = index;
+        updateSlideshow();
+      }
+
+      window[idPrefix + 'ChangeSlide'] = changeSlide;
+      window[idPrefix + 'GoToSlide'] = goToSlide;
+      
+      updateSlideshow();
+      setInterval(function(){ changeSlide(1); }, 5000);
+    }
+
+    initSlideshow('graduations');
+    initSlideshow('weddings');
+    initSlideshow('private');
+    initSlideshow('babyshowers');
+    initSlideshow('matricdance');
+  </script>
 </body>
 </html>
