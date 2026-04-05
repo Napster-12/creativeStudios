@@ -1,31 +1,29 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_mail import Mail, Message
 import os
+import requests
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'True') == 'True'
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'codnellsmall@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', '')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME', 'codnellsmall@gmail.com')
-app.config['MAIL_TIMEOUT'] = 10
+# Resend API configuration
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+ADMIN_EMAIL = "codnellsmall@gmail.com"
 
-mail = Mail(app)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.route('/pack')
 def packages():
     return render_template('packages.html')
 
+
 @app.route('/book')
 def book():
     return render_template('book.html')
+
 
 @app.route('/book', methods=['POST'])
 def book_submit():
@@ -62,17 +60,17 @@ def book_submit():
               <table width="100%" cellpadding="0" cellspacing="0" style="background:#faf9f6;border-radius:12px;margin-bottom:30px;">
                 <tr>
                   <td style="padding:20px;">
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Service:</strong> {service}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Date:</strong> {date}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Package:</strong> {package or 'Not specified'}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Name:</strong> {name}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Phone:</strong> {phone}</p>
-                    <p style="margin:0;"><strong style="color:#b8860b;">Email:</strong> {email}</p>
+                    <p><strong style="color:#b8860b;">Service:</strong> {service}</p>
+                    <p><strong style="color:#b8860b;">Date:</strong> {date}</p>
+                    <p><strong style="color:#b8860b;">Package:</strong> {package or 'Not specified'}</p>
+                    <p><strong style="color:#b8860b;">Name:</strong> {name}</p>
+                    <p><strong style="color:#b8860b;">Phone:</strong> {phone}</p>
+                    <p><strong style="color:#b8860b;">Email:</strong> {email}</p>
                   </td>
                 </tr>
               </table>
               
-              <p style="color:#5a5a5a;margin-bottom:20px;"><strong style="color:#b8860b;">Additional Details:</strong><br>{message or 'None'}</p>
+              <p><strong style="color:#b8860b;">Additional Details:</strong><br>{message or 'None'}</p>
               
               <p style="color:#5a5a5a;font-size:14px;">We will contact you within 24 hours to confirm your booking.</p>
             </td>
@@ -113,17 +111,17 @@ def book_submit():
               <table width="100%" cellpadding="0" cellspacing="0" style="background:#faf9f6;border-radius:12px;margin-bottom:30px;">
                 <tr>
                   <td style="padding:20px;">
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Name:</strong> {name}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Email:</strong> {email}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Phone:</strong> {phone}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Service:</strong> {service}</p>
-                    <p style="margin:0 0 10px;"><strong style="color:#b8860b;">Date:</strong> {date}</p>
-                    <p style="margin:0;"><strong style="color:#b8860b;">Package:</strong> {package or 'Not specified'}</p>
+                    <p><strong style="color:#b8860b;">Name:</strong> {name}</p>
+                    <p><strong style="color:#b8860b;">Email:</strong> {email}</p>
+                    <p><strong style="color:#b8860b;">Phone:</strong> {phone}</p>
+                    <p><strong style="color:#b8860b;">Service:</strong> {service}</p>
+                    <p><strong style="color:#b8860b;">Date:</strong> {date}</p>
+                    <p><strong style="color:#b8860b;">Package:</strong> {package or 'Not specified'}</p>
                   </td>
                 </tr>
               </table>
               
-              <p style="color:#5a5a5a;"><strong style="color:#b8860b;">Additional Details:</strong><br>{message or 'None'}</p>
+              <p><strong style="color:#b8860b;">Additional Details:</strong><br>{message or 'None'}</p>
             </td>
           </tr>
           <tr>
@@ -139,25 +137,52 @@ def book_submit():
 </html>"""
 
     try:
-        user_msg = Message(
-            subject=f"Booking Confirmed - {service} - Creative Studios",
-            recipients=[email],
-            html=booking_details
-        )
-        mail.send(user_msg)
+        headers = {
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
-        admin_msg = Message(
-            subject=f"New Booking: {service} - {name}",
-            recipients=['codnellsmall@gmail.com'],
-            html=admin_email_body
+        # Send customer confirmation email
+        customer_email = {
+            "from": "Creative Studios <onboarding@resend.dev>",
+            "to": [email],
+            "subject": f"Booking Confirmed - {service} - Creative Studios",
+            "html": booking_details
+        }
+
+        customer_response = requests.post(
+            "https://api.resend.com/emails",
+            headers=headers,
+            json=customer_email,
+            timeout=10
         )
-        mail.send(admin_msg)
-        
-        flash('Thank you for your booking request! A confirmation email has been sent to your inbox.', 'success')
+
+        # Send admin notification email
+        admin_email = {
+            "from": "Creative Studios <onboarding@resend.dev>",
+            "to": [ADMIN_EMAIL],
+            "subject": f"New Booking: {service} - {name}",
+            "html": admin_email_body
+        }
+
+        admin_response = requests.post(
+            "https://api.resend.com/emails",
+            headers=headers,
+            json=admin_email,
+            timeout=10
+        )
+
+        if customer_response.status_code in [200, 201] and admin_response.status_code in [200, 201]:
+            flash('Thank you for your booking request! A confirmation email has been sent.', 'success')
+        else:
+            flash('Booking received, but email delivery failed.', 'warning')
+
     except Exception as e:
-        flash(f'Booking received! (Email sending failed: {str(e)})', 'success')
-    
+        print("EMAIL ERROR:", e)
+        flash('Booking received, but email sending failed.', 'warning')
+
     return redirect(url_for('book'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
